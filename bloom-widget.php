@@ -1,14 +1,15 @@
 <?php
 
 if ( ! defined( 'ABSPATH' ) ) {
+	die('not allowed');
 	exit; // Exit if accessed directly
 }
 
-class BloomWidget extends WP_Widget
+class BloomWidget extends \WP_Widget
 {
 	function __construct(){
-		$widget_ops = array( 'description' => esc_html__( 'Bloom widget, please configure all the settings in Bloom control panel', 'bloom' ) );
-		parent::__construct( false, $name = esc_html__( 'Bloom', 'bloom' ), $widget_ops );
+		$widget_ops = array( 'description' => __( 'Bloom widget, please configure all the settings in Bloom control panel', 'bloom' ) );
+		parent::__construct( false, $name = __( 'Bloom', 'bloom' ), $widget_ops );
 	}
 
 	/* Displays the Widget in the front-end */
@@ -28,7 +29,7 @@ class BloomWidget extends WP_Widget
 			echo $before_title . esc_html( $title ) . $after_title;
 		}
 
-		echo ET_Bloom::display_widget( $optin_id );
+		echo \ET_Bloom::display_widget( $optin_id );
 
 		echo $after_widget;
 	}
@@ -56,13 +57,13 @@ class BloomWidget extends WP_Widget
 				<label for="%1$s">%2$s: </label>
 				<input class="widefat" id="%1$s" name="%4$s" type="text" value="%3$s" />
 			</p>',
-			esc_attr( $this->get_field_id( 'title' ) ),
-			esc_html__( 'Title', 'bloom' ),
-			esc_attr( $title ),
-			esc_attr( $this->get_field_name( 'title' ) )
+			attr( $this->getTitle() ),
+			__( 'Title', 'bloom' ),
+			attr( $title ),
+			attr( $this->getFieldTitle() )
 		);
 
-		$optins_set = ET_Bloom::widget_optins_list();
+		$optins_set = \ET_Bloom::widget_optins_list();
 		$optins_formatted = '';
 		foreach ( $optins_set as $optin_id => $name ) {
 			$optins_formatted .= sprintf(
@@ -78,10 +79,10 @@ class BloomWidget extends WP_Widget
 				<label for="%1$s">%2$s: </label>
 				<select class="widefat" id="%1$s" name="%4$s" type="text">%5$s</select>
 			</p>',
-			esc_attr( $this->get_field_id( 'optin_id' ) ),
-			esc_html__( 'Select Optin', 'bloom' ),
-			esc_attr( $title ),
-			esc_attr( $this->get_field_name( 'optin_id' ) ),
+			attr( $this->optinId() ),
+			__( 'Select Optin', 'bloom' ),
+			attr( $title ),
+			attr( $this->optinId() ),
 			$optins_formatted
 		);
 	}
